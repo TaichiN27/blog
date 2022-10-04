@@ -19,6 +19,7 @@
             <form action="/posts/{{ $post->id }}" id="form_{{ $post->id }}" method="post">
                 @csrf
                 @method('DELETE')
+                <a href="/categories/{{ $post->category->id }}">{{ $post->category->name }}</a>
                 <button type="button" onclick="deletePost({{$post->id}})">delete</button>
             </form>                
             @endforeach

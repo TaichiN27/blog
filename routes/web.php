@@ -15,11 +15,19 @@ use App\Http\Controllers\CategoryController;
 |
 */
 
-Route::get('/posts/{post}/edit', [PostController::class, 'edit']);
-Route::get('/', [PostController::class, 'index']);
-Route::get('/posts/create', [PostController::class, 'create']);
-Route::get('/posts/{post}', [PostController::class, 'show']);
-Route::post('/posts', [PostController::class, 'store']);
-Route::put('/posts/{post}', [PostController::class, 'update']);
-Route::delete('/posts/{post}', [PostController::class,'delete']);
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+
+require __DIR__.'/auth.php';
+
+Route::get('/', [PostController::class, 'index'])->name('index')->middleware('auth');
+Route::get('/create', [PostController::class, 'create'])->name('create')->middleware('auth');
+Route::get('/posts/{post}/edit', [PostController::class, 'edit'])->name('edit')->middleware('auth');
+Route::get('/posts/{post}', [PostController::class, 'show'])->name('show')->middleware('auth');
+Route::post('/posts', [PostController::class, 'store'])->name('store')->middleware('auth');
+Route::put('/posts/{post}', [PostController::class, 'update'])->name('update')->middleware('auth');
+Route::delete('/posts/{post}', [PostController::class,'delete'])->name('delete')->middleware('auth');
 Route::get('/categories/{category}', [CategoryController::class,'index']);
